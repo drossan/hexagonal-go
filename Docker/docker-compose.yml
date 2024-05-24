@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  db:
+    build: .
+    container_name: hexagonal-db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: hexagonal_go
+      MYSQL_USER: hexagonal_user
+      MYSQL_PASSWORD: password
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+#  app:
+#    image: golang:1.22
+#    container_name: hexagonal-app
+#    build:
+#      context: .
+#      dockerfile: Dockerfile.app
+#    ports:
+#      - "8080:8080"
+#    depends_on:
+#      - db
+#    volumes:
+#      - .:/go/src/github.com/drossan/core-api
+#    command: ["./hexagonal-go"]
+
+volumes:
+  db_data:

@@ -1,0 +1,43 @@
+# Obtener datos del usuario a través del bearer toekn
+GET http://localhost:{{port}}/api/v1/user
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+###
+
+# Obtener usuarios con paginación
+GET http://localhost:{{port}}/api/v1/user/1?rows=50
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+###
+# Obtener un usuario por email
+GET http://localhost:{{port}}/api/v1/user?email=nuevo_usuario@example.com
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+###
+# Crear o actualizar un usuario
+POST http://localhost:{{port}}/api/v1/user
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "username": "nuevo_usuario",
+  "email": "nuevo_usuario@example.com",
+  "fullname": "Nuevo Usuario",
+  "password": "password123",
+  "confirmPassword": "password123",
+  "picture": "http://example.com/picture.jpg",
+  "level_id": 1
+}
+
+###
+# Eliminar un usuario
+POST http://localhost:{{port}}/api/v1/user/delete
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "id": 1
+}

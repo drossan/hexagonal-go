@@ -1,0 +1,9 @@
+###
+# Login de usuario
+POST http://localhost:{{port}}/api/v1/login
+Content-Type: application/json
+
+{
+  "email": "admin@drossan.com",
+  "password": "awesomepassword"
+}

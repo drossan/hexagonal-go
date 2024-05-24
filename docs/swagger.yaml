@@ -1,0 +1,876 @@
+basePath: /
+definitions:
+  github_com_drossan_core-api_domain_model.Form:
+    properties:
+      color:
+        type: string
+      condition:
+        type: string
+      count:
+        type: string
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      icon:
+        type: string
+      id:
+        type: integer
+      link:
+        type: string
+      menuTree:
+        $ref: '#/definitions/github_com_drossan_core-api_domain_model.MenuTree'
+      menuTreeID:
+        type: integer
+      order:
+        type: integer
+      path_api:
+        type: string
+      public_to_intranet:
+        type: boolean
+      setting:
+        type: boolean
+      title:
+        type: string
+      totalCount:
+        type: integer
+      updatedAt:
+        type: string
+    type: object
+  github_com_drossan_core-api_domain_model.Hotel:
+    properties:
+      address:
+        type: string
+      city:
+        type: string
+      country:
+        type: string
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      id:
+        type: integer
+      name:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  github_com_drossan_core-api_domain_model.Level:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      description:
+        type: string
+      id:
+        type: integer
+      level:
+        type: string
+      levelPrivileges:
+        items:
+          $ref: '#/definitions/github_com_drossan_core-api_domain_model.LevelPrivileges'
+        type: array
+      updatedAt:
+        type: string
+    type: object
+  github_com_drossan_core-api_domain_model.LevelPrivileges:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      form:
+        $ref: '#/definitions/github_com_drossan_core-api_domain_model.Form'
+      formID:
+        type: integer
+      id:
+        type: integer
+      levelID:
+        type: integer
+      read:
+        type: boolean
+      updatedAt:
+        type: string
+      write:
+        type: boolean
+    type: object
+  github_com_drossan_core-api_domain_model.MenuTree:
+    properties:
+      color:
+        type: string
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      icon:
+        type: string
+      id:
+        type: integer
+      order:
+        type: integer
+      title:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  github_com_drossan_core-api_domain_model.User:
+    properties:
+      confirmPassword:
+        type: string
+      createdAt:
+        type: string
+      deletedAt:
+        type: string
+      email:
+        type: string
+      failure:
+        type: integer
+      fullname:
+        type: string
+      id:
+        type: integer
+      level:
+        $ref: '#/definitions/github_com_drossan_core-api_domain_model.Level'
+      levelID:
+        type: integer
+      password:
+        type: string
+      picture:
+        type: string
+      token:
+        type: string
+      updatedAt:
+        type: string
+      username:
+        type: string
+    type: object
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: hola@drossan.com
+    name: API Support
+    url: https://www.drossan.com
+  description: Core for Intranet API in Go using Echo and Gorm.
+  license:
+    name: Proprietary
+    url: https://www.drossan.com/license
+  termsOfService: https://www.drossan.com/license
+  title: Core API
+  version: "1.0"
+paths:
+  /expanses-menus:
+    get:
+      consumes:
+      - application/json
+      description: Get all expanse menus
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/github_com_drossan_core-api_domain_model.MenuTree'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get all expanse menus
+      tags:
+      - expanse menus
+    post:
+      consumes:
+      - application/json
+      description: Add a new expanse menu
+      parameters:
+      - description: Expanse Menu
+        in: body
+        name: menu
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_drossan_core-api_domain_model.MenuTree'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/github_com_drossan_core-api_domain_model.MenuTree'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Add a new expanse menu
+      tags:
+      - expanse menus
+  /expanses-menus/{page}:
+    get:
+      consumes:
+      - application/json
+      description: Get expanse menus with pagination
+      parameters:
+      - description: Page number
+        in: path
+        name: page
+        required: true
+        type: integer
+      - description: Rows per page
+        in: query
+        name: rows
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get expanse menus with pagination
+      tags:
+      - expanse menus
+  /expanses-menus/delete:
+    post:
+      consumes:
+      - application/json
+      description: Delete an expanse menu by ID
+      parameters:
+      - description: Menu ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete an expanse menu
+      tags:
+      - expanse menus
+  /form:
+    post:
+      consumes:
+      - application/json
+      description: Create or update a form with the input payload
+      parameters:
+      - description: Form
+        in: body
+        name: form
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_drossan_core-api_domain_model.Form'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/github_com_drossan_core-api_domain_model.Form'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create or update a form
+      tags:
+      - forms
+  /form/delete:
+    post:
+      consumes:
+      - application/json
+      description: Delete a form with the input payload
+      parameters:
+      - description: Form
+        in: body
+        name: form
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_drossan_core-api_domain_model.Form'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_drossan_core-api_domain_model.Form'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a form
+      tags:
+      - forms
+  /forms:
+    get:
+      consumes:
+      - application/json
+      description: Get all forms
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/github_com_drossan_core-api_domain_model.Form'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get all forms
+      tags:
+      - forms
+  /forms/{page}:
+    get:
+      consumes:
+      - application/json
+      description: Get forms with pagination
+      parameters:
+      - description: Page number
+        in: path
+        name: page
+        required: true
+        type: integer
+      - description: Rows per page
+        in: query
+        name: rows
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get forms with pagination
+      tags:
+      - forms
+  /hotels:
+    post:
+      consumes:
+      - application/json
+      description: Create a new hotel with the input payload
+      parameters:
+      - description: Hotel
+        in: body
+        name: hotel
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_drossan_core-api_domain_model.Hotel'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/github_com_drossan_core-api_domain_model.Hotel'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new hotel
+      tags:
+      - hotels
+  /hotels/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get a hotel by ID
+      parameters:
+      - description: Hotel ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_drossan_core-api_domain_model.Hotel'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a hotel by ID
+      tags:
+      - hotels
+  /level:
+    post:
+      consumes:
+      - application/json
+      description: Add a new level with the input payload
+      parameters:
+      - description: Level
+        in: body
+        name: level
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_drossan_core-api_domain_model.Level'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/github_com_drossan_core-api_domain_model.Level'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Add a new level
+      tags:
+      - levels
+  /level-privilege:
+    post:
+      consumes:
+      - application/json
+      description: Create a new level privilege with the input payload
+      parameters:
+      - description: Level Privilege
+        in: body
+        name: levelPrivilege
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_drossan_core-api_domain_model.LevelPrivileges'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/github_com_drossan_core-api_domain_model.LevelPrivileges'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new level privilege
+      tags:
+      - level-privileges
+  /level-privilege/delete:
+    post:
+      consumes:
+      - application/json
+      description: Delete a level privilege with the input payload
+      parameters:
+      - description: Level Privilege
+        in: body
+        name: levelPrivilege
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_drossan_core-api_domain_model.LevelPrivileges'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_drossan_core-api_domain_model.LevelPrivileges'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a level privilege
+      tags:
+      - level-privileges
+  /level-privileges:
+    get:
+      consumes:
+      - application/json
+      description: Get all level privileges
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/github_com_drossan_core-api_domain_model.LevelPrivileges'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get all level privileges
+      tags:
+      - level-privileges
+  /level-privileges/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get a level privilege by ID
+      parameters:
+      - description: Level Privilege ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_drossan_core-api_domain_model.LevelPrivileges'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a level privilege by ID
+      tags:
+      - level-privileges
+  /level/delete:
+    post:
+      consumes:
+      - application/json
+      description: Delete a level with the input payload
+      parameters:
+      - description: Level
+        in: body
+        name: level
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_drossan_core-api_domain_model.Level'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_drossan_core-api_domain_model.Level'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a level
+      tags:
+      - levels
+  /levels:
+    get:
+      consumes:
+      - application/json
+      description: Get all levels
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/github_com_drossan_core-api_domain_model.Level'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get all levels
+      tags:
+      - levels
+  /levels/{page}:
+    get:
+      consumes:
+      - application/json
+      description: Get levels with pagination
+      parameters:
+      - description: Page number
+        in: path
+        name: page
+        required: true
+        type: integer
+      - description: Rows per page
+        in: query
+        name: rows
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get levels with pagination
+      tags:
+      - levels
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Login a user with the input payload
+      parameters:
+      - description: Credentials
+        in: body
+        name: credentials
+        required: true
+        schema:
+          additionalProperties:
+            type: string
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Login a user
+      tags:
+      - auth
+  /user:
+    get:
+      consumes:
+      - application/json
+      description: Get data for the current user based on the token
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_drossan_core-api_domain_model.User'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get current user data
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      description: Create or update a user with the input payload
+      parameters:
+      - description: User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_drossan_core-api_domain_model.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/github_com_drossan_core-api_domain_model.User'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create or update a user
+      tags:
+      - users
+  /user/delete:
+    post:
+      consumes:
+      - application/json
+      description: Delete a user with the input payload
+      parameters:
+      - description: User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_drossan_core-api_domain_model.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_drossan_core-api_domain_model.User'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a user
+      tags:
+      - users
+  /users/{page}:
+    get:
+      consumes:
+      - application/json
+      description: Get users with pagination
+      parameters:
+      - description: Page number
+        in: path
+        name: page
+        required: true
+        type: integer
+      - description: Rows per page
+        in: query
+        name: rows
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get users with pagination
+      tags:
+      - users
+swagger: "2.0"

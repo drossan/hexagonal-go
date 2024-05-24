@@ -1,0 +1,34 @@
+# Obtener todos los niveles
+GET http://localhost:{{port}}/api/v1/level
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+###
+
+# Obtener niveles con paginación
+GET http://localhost:{{port}}/api/v1/level/1?rows=50
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+###
+
+# Añadir un nuevo nivel
+POST http://localhost:{{port}}/api/v1/level
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "level": "Nuevo Nivel",
+  "description": "Descripción del nuevo nivel"
+}
+
+###
+
+# Eliminar un nivel
+POST http://localhost:{{port}}/api/v1/level/delete
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "id": 1
+}

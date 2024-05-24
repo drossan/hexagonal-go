@@ -1,0 +1,18 @@
+# .air.toml
+
+# Configuración básica de compilación y ejecución
+[build]
+cmd = "go build -o ./tmp/main ./cmd/server/"
+bin = "./tmp/main"
+full_bin = "./tmp/main"
+include_ext = ["go", "tpl", "tmpl", "html"]
+exclude_dir = ["assets", "tmp", "vendor"]
+
+# Configuración de directorios
+[dir]
+watch = ["./"]
+exclude = ["./assets", "./tmp", "./vendor", "./frontend"]
+
+# Configuración de log
+[log]
+level = "debug"
